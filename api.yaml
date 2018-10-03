@@ -1,0 +1,188 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Lunchrooms
+  description: Scala + MongoDB
+  license:
+    name: Software Architecture 2018-II
+host: '192.168.99.102:9000'
+basePath: /lunchroom
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /lunchroom:
+    post:
+      summary: Creates a new Lunchroom
+      operationId: createLunchroom
+      parameters:
+        - name: lunchroom
+          in: body
+          required: true
+          description: Lunch Object
+          schema:
+            $ref: '#/definitions/LunchroomInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all lunchrooms
+      operationId: getAllLunchrooms
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/LunchroomsList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/lunchroom/{id}':
+    get:
+      summary: Returns a lunchroom with the given id
+      operationId: getLunchroomById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the lunchroom to be returned
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Lunchroom'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      summary: Updates a lunchroom with the given id
+      operationId: updateLunchroom
+      parameters:
+        - name: id
+          in: path
+          description: The code of the lunchroom to be updated
+          required: true
+          type: integer
+        - name: course
+          in: body
+          required: true
+          description: Course Object
+          schema:
+            $ref: '#/definitions/LunchroomInput'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: Deletes a lunchroom with the given id
+      operationId: deleteLunchroom
+      parameters:
+        - name: id
+          in: path
+          description: The id of the lunchroom to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+  Lunchroom:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      numlunch:
+        type: integer
+      openTime:
+        type: string
+      closeTime:
+        type: string
+      building:
+        type: string
+  LunchroomInput:
+    type: object
+    properties:
+      name:
+        type: string
+      numlunch:
+        type: integer
+      openTime:
+        type: string
+      closeTime:
+        type: string
+      building:
+        type: string  
+  LunchroomsList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Lunchroom'
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
