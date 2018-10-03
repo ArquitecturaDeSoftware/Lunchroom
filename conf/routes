@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET       /lunchroom                      controllers.LunchroomController.getAllLunchrooms
+GET       /lunchroom/:id                  controllers.LunchroomController.getLunchroom(id: reactivemongo.bson.BSONObjectID)
++ nocsrf
+POST      /lunchroom                      controllers.LunchroomController.createLunchroom
++ nocsrf
+PATCH     /lunchroom/:id                  controllers.LunchroomController.updateLunchroom(id: reactivemongo.bson.BSONObjectID)
++ nocsrf
+DELETE    /lunchroom/:id                  controllers.LunchroomController.deleteLunchroom(id: reactivemongo.bson.BSONObjectID)
+
+# Map static resources from the /public folder to the /assets URL path
+GET       /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

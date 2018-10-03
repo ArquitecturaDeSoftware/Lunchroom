@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  lunchrooms-ms:
+    build: .
+    ports:
+      - "9000:9000"
+    depends_on:
+      - lunchrooms-db
+    command: target/universal/lunchroom-ms-1.0-SNAPSHOT/bin/lunchroom-ms    
+  lunchrooms-db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
