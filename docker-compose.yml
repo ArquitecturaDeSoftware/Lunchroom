@@ -6,7 +6,7 @@ services:
       - "9000:9000"
     depends_on:
       - lunchrooms-db
-    command: target/universal/lunchroom-ms-1.0-SNAPSHOT/bin/lunchroom-ms    
+    command: bin/lunchrooms-ms    
   lunchrooms-db:
     image: mongo:latest
     ports:
