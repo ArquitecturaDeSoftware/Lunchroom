@@ -1,4 +1,4 @@
-name := "lunchroom-ms"
+name := "lunchrooms-ms"
 
 version := "1.0-SNAPSHOT"
 
