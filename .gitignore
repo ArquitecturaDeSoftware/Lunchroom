@@ -1,8 +1,8 @@
 logs/
-target/
-project/target/web/
-project/target/streams/
-project/target/scala-2.12/
+target/web/
+target/streams/
+target/scala-2.12/
+project/target/
 project/project/
 /.idea
 /.idea_modules
