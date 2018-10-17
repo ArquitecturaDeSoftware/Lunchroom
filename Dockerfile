@@ -24,6 +24,9 @@ RUN \
   apt-get install sbt && \
   sbt sbtVersion
 
+RUN mkdir -p /scala/src/github.com/hcrodriguezl/lunchrooms_ms
+ADD . /scala/src/github.com/hcrodriguezl/lunchrooms_ms
+RUN cd /scala/src/github.com/hcrodriguezl/lunchrooms_ms
 
 RUN sbt dist
 COPY target/universal/lunchrooms-ms-1.0-SNAPSHOT/ /root/lunchrooms/
