@@ -28,7 +28,7 @@ RUN mkdir -p /scala/src/github.com/hcrodriguezl/lunchrooms_ms
 ADD . /scala/src/github.com/hcrodriguezl/lunchrooms_ms
 RUN cd /scala/src/github.com/hcrodriguezl/lunchrooms_ms
 
-RUN stb build && sbt dist
+RUN sbt build && sbt dist
 COPY target/universal/lunchrooms-ms-1.0-SNAPSHOT/ /root/lunchrooms/
 WORKDIR /root/lunchrooms
 
