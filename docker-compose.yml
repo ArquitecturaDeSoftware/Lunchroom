@@ -7,7 +7,7 @@ services:
     depends_on:
       - lunchrooms-db
     environment:
-      - MONGO_URI=mongodb://lunchrooms-db:27017/lunchrooms-db
+      - MONGO_URI=mongodb://lunchrooms-db:27017/lunchrooms-ms
     command: bin/lunchrooms-ms    
   lunchrooms-db:
     image: mongo:latest
