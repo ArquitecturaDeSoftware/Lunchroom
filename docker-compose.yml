@@ -6,8 +6,14 @@ services:
       - "9000:9000"
     depends_on:
       - lunchrooms-db
+    environment:
+      - MONGO_URI=mongodb://lunchrooms-db:27017/lunchrooms-db
     command: bin/lunchrooms-ms    
   lunchrooms-db:
     image: mongo:latest
+    command: mongod --smallfiles --logpath=/dev/null
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
     ports:
       - "27017:27017"
