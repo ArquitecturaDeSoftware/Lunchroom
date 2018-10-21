@@ -19,7 +19,7 @@ class LunchroomController @Inject()(cc: ControllerComponents, lunchroomRepo: Lun
     }
   }
 
-  def getLunchroom(lunchroomId: BSONObjectID) = Action.async {
+  def getLunchroom(lunchroomId: String) = Action.async {
     lunchroomRepo.getLunchroom(lunchroomId).map { maybeLunchroom =>
       maybeLunchroom.map { lunchroom =>
         Ok(Json.toJson(lunchroom))
@@ -36,7 +36,7 @@ class LunchroomController @Inject()(cc: ControllerComponents, lunchroomRepo: Lun
   }
 
  
-  def updateLunchroom(lunchroomId: BSONObjectID) = Action.async(parse.json){ req =>
+  def updateLunchroom(lunchroomId: String) = Action.async(parse.json){ req =>
     req.body.validate[Lunchroom].map { lunchroom =>
       lunchroomRepo.updateLunchroom(lunchroomId, lunchroom).map {
         case Some(lunchroom) => Ok(Json.toJson(lunchroom))
@@ -45,7 +45,7 @@ class LunchroomController @Inject()(cc: ControllerComponents, lunchroomRepo: Lun
     }.getOrElse(Future.successful(BadRequest("Invalid Json")))
   }
 
-  def deleteLunchroom(lunchroomId: BSONObjectID) = Action.async { req =>
+  def deleteLunchroom(lunchroomId: String) = Action.async { req =>
     lunchroomRepo.deleteLunchroom(lunchroomId).map {
       case Some(lunchroom) => Ok(Json.toJson(lunchroom))
       case _ => NotFound

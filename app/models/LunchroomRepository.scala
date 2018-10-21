@@ -17,7 +17,7 @@ import reactivemongo.play.json.collection.JSONCollection
 import play.modules.reactivemongo.ReactiveMongoApi
 
 
-case class Lunchroom(_id: Option[BSONObjectID], name: String, numlunch: Int, openTime:String, closeTime:String, building:String)
+case class Lunchroom(_id: Option[String], name: String, numlunch: Int, openTime:String, closeTime:String, building:String)
 
 object JsonFormats{
   import play.api.libs.json._
@@ -39,16 +39,27 @@ class LunchroomRepository @Inject()(implicit ec: ExecutionContext, reactiveMongo
       .collect[Seq](limit, Cursor.FailOnError[Seq[Lunchroom]]())
     )
 
-  def getLunchroom(id: BSONObjectID): Future[Option[Lunchroom]] =
+  def getLunchroom(id: String): Future[Option[Lunchroom]] =
     lunchroomCollection.flatMap(_.find(
       selector = BSONDocument("_id" -> id),
       projection = Option.empty[BSONDocument])
       .one[Lunchroom])
 
-  def addLunchroom(lunchroom: Lunchroom): Future[WriteResult] =
-    lunchroomCollection.flatMap(_.insert(lunchroom))
+  def addLunchroom(lunchroom: Lunchroom): Future[WriteResult] = {
+    var newLunchRoom = BSONDocument(
+          "_id" -> lunchroom._id.getOrElse(BSONObjectID.generate().stringify),
+          "name" -> lunchroom.name,
+          "numlunch" -> lunchroom.numlunch,
+          "openTime" -> lunchroom.openTime,
+          "closeTime" -> lunchroom.closeTime,
+          "building" -> lunchroom.building
+    )
+    
+    lunchroomCollection.flatMap(_.insert(newLunchRoom))
 
-  def updateLunchroom(id: BSONObjectID, lunchroom: Lunchroom): Future[Option[Lunchroom]] = {
+    }
+
+  def updateLunchroom(id: String, lunchroom: Lunchroom): Future[Option[Lunchroom]] = {
     val selector = BSONDocument("_id" -> id)
     val updateModifier = BSONDocument(
       f"$$set" -> BSONDocument(
@@ -65,7 +76,7 @@ class LunchroomRepository @Inject()(implicit ec: ExecutionContext, reactiveMongo
     )
   }
 
-  def deleteLunchroom(id: BSONObjectID): Future[Option[Lunchroom]] = {
+  def deleteLunchroom(id: String): Future[Option[Lunchroom]] = {
     val selector = BSONDocument("_id" -> id)
     lunchroomCollection.flatMap(_.findAndRemove(selector).map(_.result[Lunchroom]))
   }
