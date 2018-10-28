@@ -1,10 +1,7 @@
 logs/
-target/web/
-target/streams/
-target/scala-2.12/
-target/universal/scripts
-project/target/
-project/project/
+target/*
+!target/universal/lunchrooms-ms-1.0-SNAPSHOT
+project/*
 /.idea
 /.idea_modules
 /.classpath

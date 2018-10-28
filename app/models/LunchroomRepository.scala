@@ -17,7 +17,7 @@ import reactivemongo.play.json.collection.JSONCollection
 import play.modules.reactivemongo.ReactiveMongoApi
 
 
-case class Lunchroom(_id: Option[String], name: String, numlunch: Int, openTime:String, closeTime:String, building:String)
+case class Lunchroom(_id: Option[String], name: String, numlunch: Int, openTime:String, closeTime:String, building:String, code:String, principalCount: Int)
 
 object JsonFormats{
   import play.api.libs.json._
@@ -52,7 +52,9 @@ class LunchroomRepository @Inject()(implicit ec: ExecutionContext, reactiveMongo
           "numlunch" -> lunchroom.numlunch,
           "openTime" -> lunchroom.openTime,
           "closeTime" -> lunchroom.closeTime,
-          "building" -> lunchroom.building
+          "building" -> lunchroom.building,
+          "code" -> lunchroom.code,
+          "principalCount" -> lunchroom.principalCount
     )
     
     lunchroomCollection.flatMap(_.insert(newLunchRoom))
@@ -67,7 +69,9 @@ class LunchroomRepository @Inject()(implicit ec: ExecutionContext, reactiveMongo
         "numlunch" -> lunchroom.numlunch,
         "openTime" -> lunchroom.openTime,
         "closeTime" -> lunchroom.closeTime,
-        "building" -> lunchroom.building)
+        "building" -> lunchroom.building),
+        "code" -> lunchroom.code,
+        "principalCount" -> lunchroom.principalCount
     )
 
     lunchroomCollection.flatMap(
