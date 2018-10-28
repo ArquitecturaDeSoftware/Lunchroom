@@ -69,9 +69,9 @@ class LunchroomRepository @Inject()(implicit ec: ExecutionContext, reactiveMongo
         "numlunch" -> lunchroom.numlunch,
         "openTime" -> lunchroom.openTime,
         "closeTime" -> lunchroom.closeTime,
-        "building" -> lunchroom.building),
+        "building" -> lunchroom.building,
         "code" -> lunchroom.code,
-        "principalCount" -> lunchroom.principalCount
+        "principalCount" -> lunchroom.principalCount)
     )
 
     lunchroomCollection.flatMap(
